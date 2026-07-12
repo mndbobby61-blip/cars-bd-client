@@ -3,7 +3,7 @@ import Image from "next/image";
 import Hero from "@/components/Hero";
 // import CarCard from "@/components/CarCard";
 import StatsCounter from "@/components/StatsCounter";
-// import { Car, CarListResponse } from "@/lib/types";
+import { Car, CarListResponse } from "@/lib/types";
 
 async function getFeaturedCars(): Promise<Car[]> {
   try {
