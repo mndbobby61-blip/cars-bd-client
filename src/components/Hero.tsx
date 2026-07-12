@@ -27,7 +27,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="relative isolate flex h-screen min-h-[640px] w-[1200px] items-center overflow-hidden bg-neutral-900">
+    <section className="relative isolate flex h-screen min-h-[640px] w-full items-center overflow-hidden bg-neutral-900">
       {slides.map((src, i) => (
         <div
           key={src}
