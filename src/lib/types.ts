@@ -9,6 +9,17 @@ export interface AuthUser {
   token: string;
 }
 
+export interface Review {
+  _id: string;
+  car: string;
+  user: string;
+  userName: string;
+  userEmail: string;
+  rating: number;
+  comment: string;
+  createdAt: string;
+}
+
 export interface Car {
   _id: string;
   title: string;

@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useAuth } from "@/context/AuthContext";
 import { api } from "@/lib/api";
 import { Car } from "@/lib/types";
-import ProtectedRoute from "@/components/ProtectedRoute";
+import ProtectedRoute from "@/components/ProtectedRouter";
 
 const formatPrice = (price: number) =>
   new Intl.NumberFormat("en-BD", { maximumFractionDigits: 0 }).format(price);

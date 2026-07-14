@@ -105,26 +105,11 @@ export default function LoginPage() {
           <div className="h-px flex-1 bg-neutral-200" />
         </div>
 
-        <div className="mt-4">
+        <div className="mt-4 flex gap-2 w-full text-accent-500">
           <GoogleSignInButton
             onSuccess={() => router.push("/")}
             onError={(msg) => setErrors({ form: msg })}
           />
-        </div>
-
-        <div className="mt-5 flex items-center gap-3">
-          <div className="h-px flex-1 bg-neutral-200" />
-          <span className="text-xs text-neutral-400">Quick Demo Access</span>
-          <div className="h-px flex-1 bg-neutral-200" />
-        </div>
-
-        <div className="mt-4 grid grid-cols-2 gap-3">
-          <button onClick={() => handleDemoLogin("user")} disabled={loading} className="btn-outline">
-            Demo User
-          </button>
-          <button onClick={() => handleDemoLogin("admin")} disabled={loading} className="btn-outline">
-            Demo Admin
-          </button>
         </div>
 
         <p className="mt-6 text-center text-sm text-neutral-500">
