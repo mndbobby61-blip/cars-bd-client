@@ -31,6 +31,7 @@ function AdminContent() {
   const [cars, setCars] = useState<Car[]>([]);
   const [users, setUsers] = useState<AdminUser[]>([]);
   const [loading, setLoading] = useState(true);
+  const [roleChangingId, setRoleChangingId] = useState<string | null>(null);
 
   const loadAll = async () => {
     if (!user) return;
@@ -73,6 +74,23 @@ function AdminContent() {
     }
   };
 
+  const handleRoleChange = async (id: string, newRole: string) => {
+    if (!user) return;
+    const targetUser = users.find((u) => u._id === id);
+    if (!targetUser) return;
+    if (!confirm(`Change ${targetUser.name}'s role to ${newRole}?`)) return;
+
+    setRoleChangingId(id);
+    try {
+      await api.put(`/admin/users/${id}/role`, { role: newRole }, user.token);
+      setUsers((prev) => prev.map((u) => (u._id === id ? { ...u, role: newRole } : u)));
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Failed to update role");
+    } finally {
+      setRoleChangingId(null);
+    }
+  };
+
   const tabs = [
     { id: "overview", label: "Overview" },
     { id: "listings", label: "All Listings" },
@@ -80,7 +98,7 @@ function AdminContent() {
   ] as const;
 
   return (
-    <div className="container-x py-10">
+    <div className="container-1200 py-10">
       <h1 className="section-title">Admin Dashboard</h1>
       <p className="section-subtitle">Monitor platform activity and manage listings and users.</p>
 
@@ -156,7 +174,7 @@ function AdminContent() {
 
           {tab === "users" && (
             <div className="card overflow-x-auto">
-              <table className="w-full min-w-[600px] text-left text-sm">
+              <table className="w-full min-w-[640px] text-left text-sm">
                 <thead className="bg-neutral-50 text-xs uppercase text-neutral-500">
                   <tr>
                     <th className="px-5 py-3">Name</th>
@@ -170,16 +188,35 @@ function AdminContent() {
                     <tr key={u._id}>
                       <td className="px-5 py-4 font-semibold text-neutral-900">{u.name}</td>
                       <td className="px-5 py-4 text-neutral-600">{u.email}</td>
-                      <td className="px-5 py-4 capitalize text-neutral-600">{u.role}</td>
-                      <td className="px-5 py-4 text-right">
-                        {u.role !== "admin" && (
-                          <button
-                            onClick={() => handleDeleteUser(u._id)}
-                            className="rounded-lg border border-red-200 px-3 py-1.5 text-xs font-semibold text-red-600 hover:bg-red-50"
+                      <td className="px-5 py-4">
+                        <span
+                          className={`rounded-full px-2.5 py-1 text-xs font-semibold capitalize ${
+                            u.role === "admin" ? "bg-primary-50 text-primary" : "bg-neutral-100 text-neutral-600"
+                          }`}
+                        >
+                          {u.role}
+                        </span>
+                      </td>
+                      <td className="px-5 py-4">
+                        <div className="flex items-center justify-end gap-2">
+                          <select
+                            value={u.role}
+                            disabled={roleChangingId === u._id}
+                            onChange={(e) => handleRoleChange(u._id, e.target.value)}
+                            className="rounded-lg border border-neutral-300 px-2.5 py-1.5 text-xs font-semibold text-neutral-700 outline-none focus:border-primary disabled:opacity-50"
                           >
-                            Remove
-                          </button>
-                        )}
+                            <option value="user">User</option>
+                            <option value="admin">Admin</option>
+                          </select>
+                          {u.role !== "admin" && (
+                            <button
+                              onClick={() => handleDeleteUser(u._id)}
+                              className="rounded-lg border border-red-200 px-3 py-1.5 text-xs font-semibold text-red-600 hover:bg-red-50"
+                            >
+                              Remove
+                            </button>
+                          )}
+                        </div>
                       </td>
                     </tr>
                   ))}

@@ -40,27 +40,19 @@ export default function LoginPage() {
     }
   };
 
-  const handleDemoLogin = async (role: "user" | "admin") => {
-    const creds =
-      role === "admin"
-        ? { email: "admin@autobazaar.com", password: "Admin@123" }
-        : { email: "user@autobazaar.com", password: "User@123" };
-    setEmail(creds.email);
-    setPassword(creds.password);
-    setLoading(true);
-    setErrors({});
-    try {
-      await login(creds.email, creds.password);
-      router.push("/");
-    } catch (err) {
-      setErrors({ form: err instanceof Error ? err.message : "Demo login failed" });
-    } finally {
-      setLoading(false);
+  const fillDemo = (role: "user" | "admin") => {
+    if (role === "admin") {
+      setEmail("admin@carsbd.com");
+      setPassword("Admin@123");
+    } else {
+      setEmail("user@carsbd.com");
+      setPassword("User@123");
     }
+    setErrors({});
   };
 
   return (
-    <div className="container-x flex min-h-[75vh] items-center justify-center py-16">
+    <div className="container-1200 flex min-h-[75vh] items-center justify-center py-16">
       <div className="card w-full max-w-md p-8">
         <h1 className="text-2xl font-bold text-neutral-900">Welcome Back</h1>
         <p className="mt-1 text-sm text-neutral-500">Login to manage your listings and buy cars.</p>
@@ -69,7 +61,16 @@ export default function LoginPage() {
           <p className="mt-4 rounded-lg bg-red-50 px-4 py-2 text-sm text-red-600">{errors.form}</p>
         )}
 
-        <form onSubmit={handleSubmit} className="mt-6 space-y-4" noValidate>
+        <div className="mt-5 grid grid-cols-2 gap-3">
+          <button type="button" onClick={() => fillDemo("user")} className="btn-outline !py-2 text-xs">
+            Fill Demo User
+          </button>
+          <button type="button" onClick={() => fillDemo("admin")} className="btn-outline !py-2 text-xs">
+            Fill Demo Admin
+          </button>
+        </div>
+
+        <form onSubmit={handleSubmit} className="mt-5 space-y-4" noValidate>
           <div>
             <label className="mb-1.5 block text-sm font-semibold text-neutral-800">Email Address</label>
             <input
@@ -101,11 +102,11 @@ export default function LoginPage() {
 
         <div className="mt-5 flex items-center gap-3">
           <div className="h-px flex-1 bg-neutral-200" />
-          <span className="text-xs text-neutral-400">Or continue with</span>
+          <span className="text-xs text-neutral-400">Or continue with google </span>
           <div className="h-px flex-1 bg-neutral-200" />
         </div>
 
-        <div className="mt-4 flex gap-2 w-full text-accent-500">
+        <div className="mt-4">
           <GoogleSignInButton
             onSuccess={() => router.push("/")}
             onError={(msg) => setErrors({ form: msg })}

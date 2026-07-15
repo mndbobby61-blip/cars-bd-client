@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
+import Image from "next/image";
 
 export default function Navbar() {
   const { user, logout } = useAuth();
@@ -22,6 +23,7 @@ export default function Navbar() {
     { href: "/cars", label: "Explore Cars" },
     { href: "/items/add", label: "Sell a Car" },
     { href: "/items/manage", label: "My Listings" },
+    { href: "/items/bookings", label: "Booking Requests" },
     ...(user?.role === "admin" ? [{ href: "/admin", label: "Admin Panel" }] : [{ href: "/about", label: "About" }]),
   ];
 
@@ -54,9 +56,8 @@ export default function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className={`relative text-sm font-semibold transition hover:text-primary ${
-                pathname === link.href ? "text-primary" : "text-neutral-600"
-              }`}
+              className={`relative text-sm font-semibold transition hover:text-primary ${pathname === link.href ? "text-primary" : "text-neutral-600"
+                }`}
             >
               {link.label}
               {pathname === link.href && (
@@ -69,9 +70,20 @@ export default function Navbar() {
         <div className="hidden items-center gap-3 md:flex">
           {user ? (
             <>
-              <span className="text-sm text-neutral-600">
-                Hi, <span className="font-semibold text-neutral-900">{user.name.split(" ")[0]}</span>
-              </span>
+              <div className="flex items-center gap-2.5">
+                {user.avatar ? (
+                  <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full border border-neutral-200">
+                    <Image src={user.avatar} alt={user.name} fill className="object-cover" />
+                  </div>
+                ) : (
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary-50 text-sm font-bold text-primary">
+                    {user.name.charAt(0).toUpperCase()}
+                  </span>
+                )}
+                <span className="text-sm text-neutral-600">
+                  Hi, <span className="font-semibold text-neutral-900">{user.name.split(" ")[0]}</span>
+                </span>
+              </div>
               <button onClick={handleLogout} className="btn-outline !px-4 !py-2">
                 Logout
               </button>

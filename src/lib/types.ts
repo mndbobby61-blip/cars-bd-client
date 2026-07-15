@@ -9,6 +9,20 @@ export interface AuthUser {
   token: string;
 }
 
+export interface Booking {
+  _id: string;
+  car: Car;
+  buyer: { _id: string; name: string; email: string; phone?: string };
+  seller: string;
+  amount: number;
+  moveInDate: string;
+  contactNumber: string;
+  notes?: string;
+  status: "pending" | "approved" | "rejected";
+  paymentStatus: "pending" | "paid";
+  createdAt: string;
+}
+
 export interface Review {
   _id: string;
   car: string;

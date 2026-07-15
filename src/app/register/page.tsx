@@ -100,7 +100,7 @@ export default function RegisterPage() {
 
         <div className="mt-5 flex items-center gap-3">
           <div className="h-px flex-1 bg-neutral-200" />
-          <span className="text-xs text-neutral-400">Or continue with</span>
+          <span className="text-xs text-neutral-400">Or continue with google</span>
           <div className="h-px flex-1 bg-neutral-200" />
         </div>
 

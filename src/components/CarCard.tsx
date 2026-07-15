@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Car } from "@/lib/types";
+import { getSafeImageUrl } from "@/lib/utils";
 
 const formatPrice = (price: number) =>
   new Intl.NumberFormat("en-BD", { maximumFractionDigits: 0 }).format(price);
@@ -10,7 +11,7 @@ export default function CarCard({ car }: { car: Car }) {
     <div className="card group flex h-full w-full flex-col overflow-hidden">
       <div className="relative h-48 w-full shrink-0 overflow-hidden bg-neutral-100">
         <Image
-          src={car.images[0]}
+          src={getSafeImageUrl(car.images[0])}
           alt={car.title}
           fill
           sizes="(max-width: 768px) 100vw, 25vw"

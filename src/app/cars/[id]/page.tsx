@@ -9,6 +9,7 @@ import { api } from "@/lib/api";
 import { Car, Review } from "@/lib/types";
 import CarCard from "@/components/CarCard";
 import CarCardSkeleton from "@/components/CarCardSkeleton";
+import { getSafeImageUrl } from "@/lib/utils";
 
 
 const formatPrice = (price: number) =>
@@ -154,7 +155,7 @@ const handleReviewSubmit = async (e: React.FormEvent) => {
                 {/* MEDIA + DETAILS */}
                 <div className="lg:col-span-2">
                     <div className="relative h-80 w-full overflow-hidden rounded-card bg-neutral-100 sm:h-96">
-                        <Image src={car.images[activeImage]} alt={car.title} fill className="object-cover" priority />
+                        <Image src={getSafeImageUrl(car.images[activeImage])} alt={car.title} fill className="object-cover" priority />
                         <span className="absolute left-4 top-4 rounded-full bg-primary px-3 py-1 text-xs font-semibold text-white">
                             {car.condition}
                         </span>
@@ -185,7 +186,7 @@ const handleReviewSubmit = async (e: React.FormEvent) => {
                                     className={`relative h-20 w-28 shrink-0 overflow-hidden rounded-lg border-2 ${activeImage === i ? "border-primary" : "border-transparent"
                                         }`}
                                 >
-                                    <Image src={img} alt={`${car.title} ${i + 1}`} fill className="object-cover" />
+                                    <Image src={getSafeImageUrl(img)} alt={`${car.title} ${i + 1}`} fill className="object-cover" />
                                 </button>
                             ))}
                         </div>

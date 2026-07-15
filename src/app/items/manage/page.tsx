@@ -7,6 +7,7 @@ import { useAuth } from "@/context/AuthContext";
 import { api } from "@/lib/api";
 import { Car } from "@/lib/types";
 import ProtectedRoute from "@/components/ProtectedRouter";
+import { getSafeImageUrl } from "@/lib/utils";
 
 const formatPrice = (price: number) =>
   new Intl.NumberFormat("en-BD", { maximumFractionDigits: 0 }).format(price);
@@ -83,7 +84,7 @@ function ManageItemsContent() {
                 <tr key={car._id}>
                   <td className="flex items-center gap-3 px-5 py-4">
                     <div className="relative h-12 w-16 shrink-0 overflow-hidden rounded-lg bg-neutral-100">
-                      <Image src={car.images[0]} alt={car.title} fill className="object-cover" />
+                      <Image src={getSafeImageUrl(car.images[0])} alt={car.title} fill className="object-cover" />
                     </div>
                     <span className="line-clamp-1 font-semibold text-neutral-900">{car.title}</span>
                   </td>
